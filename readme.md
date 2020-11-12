@@ -121,6 +121,7 @@ docker镜像文件格式是：{registry name}:{port}/{namespaces}/{repository na
 # docker container kill box    #强制终止容器
 # docker container rm box    #删除容器，只有容器停止运行后才能删除
 # docker container exec -it web /bin/sh    #绕过容器的边界进入已启动的容器内运行命令
+# docker attach centos    #进入容器，与exec的区别是，exec是进入容器后开启一个新的终端，attach则是进入容器正在执行的终端
 # docker logs web    #查看容器日志
 ```
 
