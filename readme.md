@@ -28,12 +28,13 @@ Docker基础入门
 ```
 容器虚拟化的实现，首要的问题就是容器的隔离，为什么说容器的隔离性不如虚拟机，因为整个虚拟机从头到尾都是虚拟的，而容器却共享底层的操作系统，如果需要在两个容器内安装同一个服务，那该服务的所属用户、端口该如何处理，这里就用到了Linux下的namespaces <br/>
 容器所需要隔离的六种资源(也是六种namespaces)：
-	- UTS：主机名域名
-	- Mount：挂载文件系统
-	- IPC：进程间通信通道，信息量、消息队列和共享存储
-	- PID：init 进程ID
-	- User：root 用户ID
-	- Net：网络设备、TCP/IP栈、套接字接口 Socket
+* UTS：主机名域名
+* Mount：挂载文件系统
+* IPC：进程间通信通道，信息量、消息队列和共享存储
+* PID：init 进程ID
+* User：root 用户ID
+* Net：网络设备、TCP/IP栈、套接字接口 Socket
+
 此六种资源都已经通过Linux内核的namespaces技术原生支持，User的隔离在Linux内核版本3.8之后才被支持，只有namespaces还不够 <br />
 
 为了防止namespaces中进程出现因为内存泄露而不断吃掉宿主机的内存，导致宿主机崩溃，Linux内核还需要一个功能来限制每一个namespaces可调用的资源总量，那就是cGroups
@@ -58,6 +59,8 @@ Docker是C/S架构，Client和Server可以共存在同一台主机上，Docker�
 
 #### 标签
 除了registry，还有一个仓库repository，一个registry中可以存放多个repository，repository更多的表示软件的名字，比如nginx就是一个repository，但nginx也有不同的版本，这些不同的版本则用标签声明，比如nginx:1.15表示nginx仓库中的1.15版，下载镜像时如果不指定标签，默认下载最新版，也就是latest
+
+---------
 
 #### 分层构建，联合挂载
 Docker的镜像并不是传统的iso镜像，Docker的每一个镜像都分成了许多层，每一层都是只读层，使用镜像时就是将这些层挂载到了一起，从外面看起来就像是一个镜像，每个低一层都是高一层镜像的父镜像。镜像的所有层都是只读层，但容器必定会产生数据，所以在创建容器时，只读层全部挂载完毕后还会在最顶层额外挂载一个读写层，这个读写层随着容器的消亡而消亡 <br />
@@ -120,9 +123,11 @@ docker镜像文件格式是：{registry name}:{port}/{namespaces}/{repository na
 # docker container start -a -i box    #启动容器，并进入容器
 # docker container kill box    #强制终止容器
 # docker container rm box    #删除容器，只有容器停止运行后才能删除
-# docker container exec -it web /bin/sh    #绕过容器的边界进入已启动的容器内运行命令
+# docker container exec -it web /bin/sh    #绕过容器的边界进入已启动的容器内运行命令，exec命令会再创建一个进程覆盖掉容器内的主进程
 # docker attach centos    #进入容器，与exec的区别是，exec是进入容器后开启一个新的终端，attach则是进入容器正在执行的终端
 # docker logs web    #查看容器日志
+# docker cp centos:/index.html ./    #从容器中拷贝文件到宿主机
+# docker stats elasticsearch    #查看容器占用资源状态
 ```
 
 #### docker容器网络
