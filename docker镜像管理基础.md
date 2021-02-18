@@ -1,7 +1,7 @@
 docker镜像管理基础
 =================
 
-Docker镜像含有穷的那个容器所需要的文件系统及其内容，且采用分层构建机制，最底层为bootfs，其次为rootfs
+Docker镜像含有容器所需要的文件系统及其内容，且采用分层构建机制，最底层为bootfs，其次为rootfs
 - bootfs：用于系统引导的文件系统，包括bootloader和kernel，容器启动完成后会被卸载以节约内存资源
 - rootfs：位于bootfs之上，表现为docker容器的根文件系统
 	* 传统模式中，系统启动时，内核挂载rootfs时首先将其挂载为"只读"模式，完整性自检完成后重新挂载为读写模式
@@ -9,7 +9,7 @@ Docker镜像含有穷的那个容器所需要的文件系统及其内容，且�
 位于下层的镜像称为父镜像，最底层的称为基础镜像(base image)
 
 #### Docker Registry分类
-- Sponsor Registry：第三方的registry，共可客户与Dockers社区使用
+- Sponsor Registry：第三方的registry，供客户与Dockers社区使用
 - Mirror Registry：第三方的registry，只让用户可用
 - Vendor Registry：由发布Dokcer镜像的供应商提供的registry
 - Private Registry：通过设有防火墙和额外的安全层的私有实体提供的registry
@@ -58,7 +58,7 @@ commit选项自带了一个参数用于更改默认启动命令
 注：参数顺序不可错
 
 ### 上传镜像
-上传镜像时需要指定registry地址，如果没有指定，则默认使用dockerhub，也就是docker.io，上传镜像的前提时打标签时要注意用户名和仓库名必须与dockerhub上的相对应，比如hbdbenben/student:test，hbdbenben表示用户名，每个人的用户名不一样，student表示仓库名，dockerhub上用户名是固定的，则必须要创建一个student仓库，本地镜像才能上传成功 <br />
+上传镜像时需要指定registry地址，如果没有指定，则默认使用dockerhub，也就是docker.io，上传镜像的前提是打标签时要注意用户名和仓库名必须与dockerhub上的相对应，比如hbdbenben/student:test，hbdbenben表示用户名，每个人的用户名不一样，student表示仓库名，dockerhub上用户名是固定的，则必须要创建一个student仓库，本地镜像才能上传成功 <br />
 示例：上传镜像
 ```shell
 # docker push hbdbenben/student:test
